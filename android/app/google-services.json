@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "783294357273",
+    "project_id": "simple-finance-organizer",
+    "storage_bucket": "simple-finance-organizer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783294357273:android:4b179b9fb6156fc3abaf88",
+        "android_client_info": {
+          "package_name": "com.example.simple_finance_organizer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuyjnH-TREjopL6P9gCnrUneboajxPKOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

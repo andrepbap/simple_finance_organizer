@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAX897tu3OAA2yyQRKnrZOB5iZ8s5bYZP0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>783294357273</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.simpleFinanceOrganizer</string>
+	<key>PROJECT_ID</key>
+	<string>simple-finance-organizer</string>
+	<key>STORAGE_BUCKET</key>
+	<string>simple-finance-organizer.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:783294357273:ios:2833fe932c272f86abaf88</string>
+</dict>
+</plist>
