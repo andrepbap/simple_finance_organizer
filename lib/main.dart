@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:simple_finance_organizer/transaction_model.dart';
-import 'package:simple_finance_organizer/transaction_repository.dart';
+import 'package:simple_finance_organizer/transaction_vm.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -11,12 +11,16 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  void _startFirebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    Future(() => _startFirebase());
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -37,31 +41,25 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class TransactionState {
-  List<TransactionModel> success;
-
-  TransactionState(this.success);
-}
-
 class _MyHomePageState extends State<MyHomePage> {
   var state = TransactionState([]);
-  List<ListTile> transactionsState = [];
-  var repository = TransactionRepository();
+  late TransactionVM vm;
 
-  void _getTransactions() async {
-    var transactions = await repository.get();
+  _MyHomePageState() {
+    vm = TransactionVM();
+    vm.state = state;
+  }
 
-    setState(() {
-      state = TransactionState(transactions);
-    });
+  void _getTransactions() {
+    vm.getTransactions(setState);
   }
 
   List<ListTile> buildList() {
     List<ListTile> list = [];
 
     for (var transaction in state.success) {
-      list.add(_tile(transaction.description, transaction.value.toString(),
-          Icons.theaters));
+      list.add(_tile(
+          transaction.description, transaction.value.toString(), Icons.money));
     }
 
     return list;
