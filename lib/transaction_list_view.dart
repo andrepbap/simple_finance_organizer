@@ -4,9 +4,7 @@ import 'package:simple_finance_organizer/transaction_model.dart';
 import 'package:simple_finance_organizer/transaction_vm.dart';
 
 class TransactionListView extends StatefulWidget {
-  const TransactionListView({super.key, required this.title});
-
-  final String title;
+  const TransactionListView({super.key});
 
   @override
   State<TransactionListView> createState() => _TransactionListViewState();

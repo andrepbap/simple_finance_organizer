@@ -2,21 +2,25 @@ import 'package:simple_finance_organizer/screen_state.dart';
 import 'package:simple_finance_organizer/transaction_repository.dart';
 
 class TransactionVM {
-  late ScreenState state;
-  late Function setState;
+  static TransactionVM? instance;
+  late ScreenState _state;
+  late Function _setState;
 
   static TransactionVM createWith(ScreenState state, Function setState) {
-    var vm = TransactionVM();
-    vm.state = state;
-    vm.setState = setState;
-    return vm;
+    if (instance == null) {
+      instance = TransactionVM();
+      instance!._state = state;
+      instance!._setState = setState;
+    }
+
+    return instance!;
   }
 
   void getTransactions() async {
     var transactions = await TransactionRepository().get();
 
-    setState(() {
-      state.success = transactions;
+    _setState(() {
+      _state.success = transactions;
     });
   }
 }

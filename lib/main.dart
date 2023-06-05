@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:simple_finance_organizer/screen_state.dart';
-import 'package:simple_finance_organizer/transaction_model.dart';
+import 'package:simple_finance_organizer/transaction_list_view.dart';
 import 'package:simple_finance_organizer/transaction_vm.dart';
 import 'firebase_options.dart';
 
@@ -33,65 +32,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
+class MyHomePage extends StatelessWidget {
   final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var state = ScreenState<TransactionModel>([]);
-  late TransactionVM vm;
-
-  _MyHomePageState() {
-    vm = TransactionVM.createWith(state, setState);
-  }
-
-  List<ListTile> buildList() {
-    List<ListTile> list = [];
-
-    for (var transaction in state.success) {
-      list.add(_tile(
-          transaction.description, transaction.value.toString(), Icons.money));
-    }
-
-    return list;
-  }
-
-  ListTile _tile(String title, String subtitle, IconData icon) {
-    return ListTile(
-      title: Text(title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-          )),
-      subtitle: Text(subtitle),
-      leading: Icon(
-        icon,
-        color: Colors.blue[500],
-      ),
-    );
-  }
+  const MyHomePage({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    var tiles = buildList();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
-      body: Center(
-          child: ListView(
-        children: tiles,
-      )),
+      body: const Center(child: TransactionListView()),
       floatingActionButton: FloatingActionButton(
-        onPressed: vm.getTransactions,
-        tooltip: 'Increment',
+        onPressed: TransactionVM.instance?.getTransactions,
+        tooltip: 'Add',
         child: const Icon(Icons.add),
       ),
     );
