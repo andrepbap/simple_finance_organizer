@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:simple_finance_organizer/screen_state.dart';
 import 'package:simple_finance_organizer/transaction_model.dart';
 import 'package:simple_finance_organizer/transaction_vm.dart';
 import 'firebase_options.dart';
@@ -42,16 +43,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var state = TransactionState([]);
+  var state = ScreenState<TransactionModel>([]);
   late TransactionVM vm;
 
   _MyHomePageState() {
-    vm = TransactionVM();
-    vm.state = state;
-  }
-
-  void _getTransactions() {
-    vm.getTransactions(setState);
+    vm = TransactionVM.createWith(state, setState);
   }
 
   List<ListTile> buildList() {
@@ -94,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: tiles,
       )),
       floatingActionButton: FloatingActionButton(
-        onPressed: _getTransactions,
+        onPressed: vm.getTransactions,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
