@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:simple_finance_organizer/create_transaction_screen.dart';
 import 'package:simple_finance_organizer/transaction_list_view.dart';
-import 'package:simple_finance_organizer/transaction_vm.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
     Future(() => _startFirebase());
 
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Controle Financeiro',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Controle Financeiro'),
     );
   }
 }
@@ -46,7 +46,13 @@ class MyHomePage extends StatelessWidget {
       ),
       body: const Center(child: TransactionListView()),
       floatingActionButton: FloatingActionButton(
-        onPressed: TransactionVM.instance?.getTransactions,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => CreateTransactionScreen(),
+            ),
+          );
+        },
         tooltip: 'Add',
         child: const Icon(Icons.add),
       ),

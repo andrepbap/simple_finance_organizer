@@ -1,5 +1,3 @@
 class ScreenState<T> {
-  List<T> success;
-
-  ScreenState(this.success);
+  T? success;
 }

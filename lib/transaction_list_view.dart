@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_finance_organizer/screen_state.dart';
 import 'package:simple_finance_organizer/transaction_model.dart';
-import 'package:simple_finance_organizer/transaction_vm.dart';
+import 'package:simple_finance_organizer/transaction_repository.dart';
 
 class TransactionListView extends StatefulWidget {
   const TransactionListView({super.key});
@@ -10,18 +10,21 @@ class TransactionListView extends StatefulWidget {
   State<TransactionListView> createState() => _TransactionListViewState();
 }
 
-class _TransactionListViewState extends State<TransactionListView> {
-  var state = ScreenState<TransactionModel>([]);
-  late TransactionVM vm;
+class _TransactionListViewState extends State<TransactionListView>
+    with WidgetsBindingObserver {
+  var screenState = ScreenState<List<TransactionModel>>();
+  late TransactionRepository repository;
 
   _TransactionListViewState() {
-    vm = TransactionVM.createWith(state, setState);
+    repository = TransactionRepository();
   }
 
   List<ListTile> buildList() {
     List<ListTile> list = [];
 
-    for (var transaction in state.success) {
+    if (screenState.success == null) return list;
+
+    for (var transaction in screenState.success!) {
       list.add(_tile(
           transaction.description, transaction.value.toString(), Icons.money));
     }
@@ -51,5 +54,36 @@ class _TransactionListViewState extends State<TransactionListView> {
     return ListView(
       children: tiles,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        repository.get().then((value) => {
+              setState(() {
+                screenState.success = value;
+              })
+            });
+        break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.detached:
+        break;
+    }
   }
 }

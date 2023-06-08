@@ -1,10 +1,14 @@
+import 'package:simple_finance_organizer/mocked_server.dart';
 import 'package:simple_finance_organizer/transaction_model.dart';
 
 class TransactionRepository {
+  List<TransactionModel> mock = [];
+
   Future<List<TransactionModel>> get() async {
-    return [
-      TransactionModel("Coxinha", 5.90, DateTime(2023, 6, 1)),
-      TransactionModel("Robô Aspirador", 1400, DateTime(2023, 5, 25))
-    ];
+    return MockedServer.getInstance().mock;
+  }
+
+  void post(TransactionModel transaction) async {
+    MockedServer.getInstance().mock.add(transaction);
   }
 }
