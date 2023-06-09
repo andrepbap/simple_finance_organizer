@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:simple_finance_organizer/transaction_model.dart';
+import 'package:simple_finance_organizer/model/transaction_list_model.dart';
 import 'package:simple_finance_organizer/transaction_vm.dart';
 
 class TransactionListView extends StatelessWidget {
-  final TransactionVM vm = TransactionVM();
+  final TransactionVM vm;
 
-  TransactionListView({super.key});
+  TransactionListView({super.key, required this.vm}) {
+    vm.getTransactions();
+  }
 
-  ListView buildList(List<TransactionModel> transactions) {
+  ListView buildList(TransactionListModel? transactionList) {
     List<ListTile> list = [];
 
-    for (var transaction in transactions) {
+    if (transactionList == null) {
+      return ListView(children: list);
+    }
+
+    for (var transaction in transactionList.transactions) {
       list.add(_tile(
           transaction.description, transaction.value.toString(), Icons.money));
     }

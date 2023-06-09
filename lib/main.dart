@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:simple_finance_organizer/create_transaction_screen.dart';
 import 'package:simple_finance_organizer/transaction_list_view.dart';
+import 'package:simple_finance_organizer/transaction_vm.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -11,45 +12,68 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  void _startFirebase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    Future(() => _startFirebase());
-
     return MaterialApp(
       title: 'Controle Financeiro',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Controle Financeiro'),
+      home: const HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<HomePage> createState() {
+    return HomePageState();
+  }
+}
+
+class HomePageState extends State<HomePage> {
+  TransactionVM? vm;
+  var isFirebaseReady = false;
+
+  HomePageState() {
+    Future(() => _startFirebase());
+  }
+
+  void _startFirebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    vm = TransactionVM();
+
+    setState(() {
+      isFirebaseReady = true;
+    });
+  }
+
+  Widget _createContent() {
+    if (!isFirebaseReady) {
+      return const Scaffold(
+        body: Center(
+          child: Text("Carregando..."),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
+        title: const Text("Controle Financeiro"),
       ),
-      body: Center(child: TransactionListView()),
+      body: Center(child: TransactionListView(vm: vm!)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => CreateTransactionScreen(),
+              builder: (context) => CreateTransactionScreen(vm: vm!),
             ),
           );
         },
@@ -57,5 +81,18 @@ class MyHomePage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _createContent();
+  }
+
+  @override
+  void dispose() {
+    if (vm != null) {
+      vm!.dispose();
+    }
+    super.dispose();
   }
 }

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:simple_finance_organizer/model/transaction_list_model.dart';
 import 'package:simple_finance_organizer/screen_state.dart';
-import 'package:simple_finance_organizer/transaction_model.dart';
-import 'package:simple_finance_organizer/transaction_repository.dart';
+import 'package:simple_finance_organizer/model/transaction_model.dart';
+import 'package:simple_finance_organizer/repository/transaction_repository.dart';
 
 class TransactionVM {
-  static final TransactionVM _instance =
-      TransactionVM._internal(TransactionRepository());
-
   late TransactionNotifier _vn;
 
   final TransactionRepository _repository;
 
   factory TransactionVM() {
-    return _instance;
+    return TransactionVM._internal(TransactionRepository());
   }
 
   TransactionVM._internal(this._repository) {
@@ -24,8 +22,8 @@ class TransactionVM {
   }
 
   void getTransactions() async {
-    var result = await _repository.get();
-    _vn.update(ScreenState<List<TransactionModel>>(result));
+    var result = await _repository.getAll();
+    _vn.update(ScreenState<TransactionListModel>(success: result));
   }
 
   void createTransaction(String description, double value) {
@@ -40,11 +38,11 @@ class TransactionVM {
 }
 
 class TransactionNotifier
-    extends ValueNotifier<ScreenState<List<TransactionModel>>> {
-  TransactionNotifier({ScreenState<List<TransactionModel>>? value})
-      : super(value ?? ScreenState<List<TransactionModel>>([]));
+    extends ValueNotifier<ScreenState<TransactionListModel>> {
+  TransactionNotifier({ScreenState<TransactionListModel>? value})
+      : super(value ?? ScreenState<TransactionListModel>());
 
-  void update(ScreenState<List<TransactionModel>> value) {
+  void update(ScreenState<TransactionListModel> value) {
     this.value = value;
   }
 }
