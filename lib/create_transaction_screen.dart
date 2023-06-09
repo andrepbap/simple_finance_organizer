@@ -3,7 +3,7 @@ import 'package:simple_finance_organizer/transaction_vm.dart';
 
 class CreateTransactionScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TransactionVM vm = TransactionVM.provide();
+  final TransactionVM vm = TransactionVM();
 
   CreateTransactionScreen({super.key});
 

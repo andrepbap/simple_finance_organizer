@@ -4,23 +4,19 @@ import 'package:simple_finance_organizer/transaction_model.dart';
 import 'package:simple_finance_organizer/transaction_repository.dart';
 
 class TransactionVM {
-  static TransactionVM? instance;
+  static final TransactionVM _instance =
+      TransactionVM._internal(TransactionRepository());
 
   late TransactionNotifier _vn;
 
   final TransactionRepository _repository;
 
-  TransactionVM(this._repository) {
-    _vn = TransactionNotifier();
+  factory TransactionVM() {
+    return _instance;
   }
 
-  static TransactionVM provide() {
-    if (instance == null) {
-      var repository = TransactionRepository();
-      instance = TransactionVM(repository);
-    }
-
-    return instance!;
+  TransactionVM._internal(this._repository) {
+    _vn = TransactionNotifier();
   }
 
   TransactionNotifier observe() {

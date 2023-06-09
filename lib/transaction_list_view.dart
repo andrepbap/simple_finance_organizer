@@ -3,7 +3,7 @@ import 'package:simple_finance_organizer/transaction_model.dart';
 import 'package:simple_finance_organizer/transaction_vm.dart';
 
 class TransactionListView extends StatelessWidget {
-  final TransactionVM vm = TransactionVM.provide();
+  final TransactionVM vm = TransactionVM();
 
   TransactionListView({super.key});
 
