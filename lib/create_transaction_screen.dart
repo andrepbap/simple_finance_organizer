@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:simple_finance_organizer/transaction_repository.dart';
-import 'package:simple_finance_organizer/transaction_model.dart';
+import 'package:simple_finance_organizer/transaction_vm.dart';
 
 class CreateTransactionScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TransactionRepository repository = TransactionRepository();
+  final TransactionVM vm = TransactionVM.provide();
 
   CreateTransactionScreen({super.key});
 
@@ -53,8 +52,7 @@ class CreateTransactionScreen extends StatelessWidget {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            repository.post(TransactionModel(
-                                description, value, DateTime(2023, 6, 1)));
+                            vm.createTransaction(description, value);
                             Navigator.pop(context);
                           }
                         },

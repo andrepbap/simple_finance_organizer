@@ -44,7 +44,7 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: const Center(child: TransactionListView()),
+      body: Center(child: TransactionListView()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(

@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:simple_finance_organizer/screen_state.dart';
 import 'package:simple_finance_organizer/transaction_model.dart';
-import 'package:simple_finance_organizer/transaction_repository.dart';
+import 'package:simple_finance_organizer/transaction_vm.dart';
 
-class TransactionListView extends StatefulWidget {
-  const TransactionListView({super.key});
+class TransactionListView extends StatelessWidget {
+  final TransactionVM vm = TransactionVM.provide();
 
-  @override
-  State<TransactionListView> createState() => _TransactionListViewState();
-}
+  TransactionListView({super.key});
 
-class _TransactionListViewState extends State<TransactionListView>
-    with WidgetsBindingObserver {
-  var screenState = ScreenState<List<TransactionModel>>();
-  late TransactionRepository repository;
-
-  _TransactionListViewState() {
-    repository = TransactionRepository();
-  }
-
-  List<ListTile> buildList() {
+  ListView buildList(List<TransactionModel> transactions) {
     List<ListTile> list = [];
 
-    if (screenState.success == null) return list;
-
-    for (var transaction in screenState.success!) {
+    for (var transaction in transactions) {
       list.add(_tile(
           transaction.description, transaction.value.toString(), Icons.money));
     }
 
-    return list;
+    return ListView(children: list);
   }
 
   ListTile _tile(String title, String subtitle, IconData icon) {
@@ -49,41 +35,11 @@ class _TransactionListViewState extends State<TransactionListView>
 
   @override
   Widget build(BuildContext context) {
-    var tiles = buildList();
-
-    return ListView(
-      children: tiles,
+    return ValueListenableBuilder(
+      valueListenable: vm.observe(),
+      builder: (context, value, child) {
+        return buildList(value.success);
+      },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        repository.get().then((value) => {
-              setState(() {
-                screenState.success = value;
-              })
-            });
-        break;
-      case AppLifecycleState.inactive:
-        break;
-      case AppLifecycleState.paused:
-        break;
-      case AppLifecycleState.detached:
-        break;
-    }
   }
 }
