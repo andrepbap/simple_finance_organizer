@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_finance_organizer/transaction_vm.dart';
+import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 
 class CreateTransactionScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -7,10 +7,19 @@ class CreateTransactionScreen extends StatelessWidget {
 
   CreateTransactionScreen({super.key, required this.vm});
 
+  void getFromDatePicker(BuildContext context) async {
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2099));
+  }
+
   @override
   Widget build(BuildContext context) {
     String description = "";
     double value = 0;
+    late DateTime date;
 
     return Scaffold(
       appBar: AppBar(
@@ -46,13 +55,26 @@ class CreateTransactionScreen extends StatelessWidget {
                       return null;
                     },
                   ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                  TextFormField(
+                    onTap: () => getFromDatePicker(context),
+                    onSaved: (newValue) => date = DateTime.parse(newValue!),
+                    keyboardType: TextInputType.datetime,
+                    decoration: const InputDecoration(hintText: "Data"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Entre com um valor';
+                      }
+                      return null;
+                    },
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            vm.createTransaction(description, value);
+                            vm.createTransaction(description, value, date);
                             Navigator.pop(context);
                           }
                         },

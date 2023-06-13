@@ -18,8 +18,17 @@ class HttpClientImpl implements HttpClient {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getAll({required String from}) async {
-    var query = await db.collection("user").doc(userId).collection(from).get();
+  Future<List<Map<String, dynamic>>> getAll(
+      {required String from, String? orderBy}) async {
+    var collection = db.collection("user").doc(userId).collection(from);
+
+    QuerySnapshot<Map<String, dynamic>> query;
+
+    if (orderBy != null) {
+      query = await collection.orderBy(orderBy, descending: true).get();
+    } else {
+      query = await collection.get();
+    }
 
     List<Map<String, dynamic>> mapArray = [];
 

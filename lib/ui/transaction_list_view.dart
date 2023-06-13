@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_finance_organizer/model/transaction_list_model.dart';
-import 'package:simple_finance_organizer/transaction_vm.dart';
+import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 
 class TransactionListView extends StatelessWidget {
   final TransactionVM vm;
@@ -17,20 +18,31 @@ class TransactionListView extends StatelessWidget {
     }
 
     for (var transaction in transactionList.transactions) {
-      list.add(_tile(
-          transaction.description, transaction.value.toString(), Icons.money));
+      list.add(_tile(transaction.description, transaction.value.toString(),
+          transaction.date, Icons.money));
     }
 
     return ListView(children: list);
   }
 
-  ListTile _tile(String title, String subtitle, IconData icon) {
+  ListTile _tile(String title, String subtitle, Timestamp date, IconData icon) {
     return ListTile(
-      title: Text(title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-          )),
+      title: Table(children: [
+        TableRow(children: [
+          Text(title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ))
+        ]),
+        TableRow(children: [
+          Text(date.toDate().toIso8601String(),
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ))
+        ])
+      ]),
       subtitle: Text(subtitle),
       leading: Icon(
         icon,

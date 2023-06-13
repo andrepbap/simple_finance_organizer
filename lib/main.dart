@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:simple_finance_organizer/create_transaction_screen.dart';
-import 'package:simple_finance_organizer/transaction_list_view.dart';
-import 'package:simple_finance_organizer/transaction_vm.dart';
+import 'package:simple_finance_organizer/ui/create_transaction_screen.dart';
+import 'package:simple_finance_organizer/ui/transaction_list_view.dart';
+import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 import 'firebase_options.dart';
 
 void main() {
