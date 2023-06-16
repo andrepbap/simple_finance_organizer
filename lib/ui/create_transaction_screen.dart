@@ -1,35 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:simple_finance_organizer/ui/date_picker_button.dart';
 import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 
 class CreateTransactionScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late TransactionVM vm;
+  final TransactionVM vm;
 
-  String description = "";
-  double value = 0;
-  late DateTime date;
-  late ValueNotifier<DateTime> vn;
-  
-
-  CreateTransactionScreen({super.key, required this.vm}) {
-     date = DateTime.now();
-     vn = ValueNotifier(date);
-  }
-
-  void getFromDatePicker(BuildContext context) async {
-    var selectedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2099));
-
-      if (selectedDate != null) {
-        date = selectedDate;
-      }
-  }
+  CreateTransactionScreen({super.key, required this.vm});
 
   @override
   Widget build(BuildContext context) {
+    String description = "";
+    double value = 0;
+    late DateTime date;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -65,15 +49,8 @@ class CreateTransactionScreen extends StatelessWidget {
                     },
                   ),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-                  ValueListenableBuilder(
-                    valueListenable: vn, 
-                    builder: (context, value, child) {
-                    return TextButton(
-                      onPressed: () => getFromDatePicker(context),
-                      child: Text(value.toString(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 20)));
-                  }),
+                  DatePickerButton(
+                      onSelectDate: (selectedDate) => date = selectedDate),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
