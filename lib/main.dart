@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:simple_finance_organizer/ui/create_transaction_screen.dart';
 import 'package:simple_finance_organizer/ui/transaction_list_view.dart';
+import 'package:simple_finance_organizer/ui/transaction_sum_container.dart';
 import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 import 'firebase_options.dart';
 
@@ -66,9 +67,9 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Controle Financeiro"),
+        title: TransactionSumContainer(),
       ),
-      body: Center(child: TransactionListView(vm: vm!)),
+      body: TransactionListView(vm: vm!),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(

@@ -18,8 +18,11 @@ class TransactionListView extends StatelessWidget {
     }
 
     for (var transaction in transactionList.transactions) {
-      list.add(_tile(transaction.description, transaction.value.toString(),
-          transaction.date, Icons.money));
+      list.add(_tile(
+          transaction.description,
+          'R\$ ${transaction.value.toString()}',
+          transaction.date,
+          Icons.money));
     }
 
     return ListView(children: list);

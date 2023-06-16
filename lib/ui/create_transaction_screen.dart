@@ -12,7 +12,7 @@ class CreateTransactionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String description = "";
     double value = 0;
-    late DateTime date;
+    DateTime date = DateTime.now();
 
     return Scaffold(
       appBar: AppBar(
