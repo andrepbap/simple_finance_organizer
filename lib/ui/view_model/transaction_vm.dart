@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_finance_organizer/model/transaction_list_model.dart';
-import 'package:simple_finance_organizer/screen_state.dart';
+import 'package:simple_finance_organizer/ui/state/screen_state.dart';
 import 'package:simple_finance_organizer/model/transaction_model.dart';
 import 'package:simple_finance_organizer/repository/transaction_repository.dart';
 
@@ -26,9 +27,9 @@ class TransactionVM {
     _vn.update(ScreenState<TransactionListModel>(success: result));
   }
 
-  void createTransaction(String description, double value) {
+  void createTransaction(String description, double value, DateTime date) {
     _repository
-        .post(TransactionModel(description, value, DateTime(2023, 6, 1)));
+        .post(TransactionModel(description, value, Timestamp.fromDate(date)));
     getTransactions();
   }
 

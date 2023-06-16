@@ -21,7 +21,7 @@ class TransactionDAOImpl implements TransactionDAO {
 
   @override
   Future<TransactionListModel> getAll() async {
-    var mapArray = await client.getAll(from: entity);
+    var mapArray = await client.getAll(from: entity, orderBy: "date");
     return TransactionListModel.fromMap(mapArray);
   }
 }
