@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_finance_organizer/model/transaction_list_model.dart';
+import 'package:simple_finance_organizer/ui/transaction_sum_container.dart';
 import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 
 class TransactionListView extends StatelessWidget {
@@ -11,7 +12,7 @@ class TransactionListView extends StatelessWidget {
   }
 
   ListView buildList(TransactionListModel? transactionList) {
-    List<ListTile> list = [];
+    List<Widget> list = [];
 
     if (transactionList == null) {
       return ListView(children: list);
@@ -25,7 +26,22 @@ class TransactionListView extends StatelessWidget {
           Icons.money));
     }
 
+    list.add(_transactionsSum());
+
     return ListView(children: list);
+  }
+
+  Widget _transactionsSum() {
+    return Table(children: [
+      TableRow(children: [
+        const Text("Total:",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            )),
+        TransactionSumContainer(),
+      ])
+    ]);
   }
 
   ListTile _tile(String title, String subtitle, Timestamp date, IconData icon) {

@@ -29,6 +29,10 @@ class _TransactionSumContainerState extends State<TransactionSumContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Todas as contas: R\$ ${sumState.toString()}');
+    return Text('R\$ ${sumState.toString()}',
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
+        ));
   }
 }
