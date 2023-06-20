@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:simple_finance_organizer/model/transaction_model.dart';
 import 'package:simple_finance_organizer/ui/date_picker_button.dart';
 import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 
 class CreateTransactionScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TransactionVM vm;
+  final TransactionModel? editingTransaction;
 
-  CreateTransactionScreen({super.key, required this.vm});
+  CreateTransactionScreen(
+      {super.key, required this.vm, this.editingTransaction});
 
   @override
   Widget build(BuildContext context) {
