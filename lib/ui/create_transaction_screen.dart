@@ -17,6 +17,12 @@ class CreateTransactionScreen extends StatelessWidget {
     double value = 0;
     DateTime date = DateTime.now();
 
+    if (editingTransaction != null) {
+      description = editingTransaction!.description;
+      value = editingTransaction!.value;
+      date = editingTransaction!.date.toDate();
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -30,6 +36,7 @@ class CreateTransactionScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextFormField(
+                    initialValue: description,
                     onSaved: (newValue) => description = newValue!,
                     decoration: const InputDecoration(hintText: "Descrição"),
                     validator: (value) {
@@ -41,6 +48,7 @@ class CreateTransactionScreen extends StatelessWidget {
                   ),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
                   TextFormField(
+                    initialValue: value.toString(),
                     onSaved: (newValue) => value = double.parse(newValue!),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(hintText: "Valor"),
@@ -53,6 +61,7 @@ class CreateTransactionScreen extends StatelessWidget {
                   ),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
                   DatePickerButton(
+                      initialValue: date,
                       onSelectDate: (selectedDate) => date = selectedDate),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),

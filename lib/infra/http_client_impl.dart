@@ -33,7 +33,12 @@ class HttpClientImpl implements HttpClient {
     List<Map<String, dynamic>> mapArray = [];
 
     for (var docSnapshot in query.docs) {
-      mapArray.add(docSnapshot.data());
+      var map = docSnapshot.data();
+
+      final id = <String, String>{'id': docSnapshot.id};
+      map.addEntries(id.entries);
+
+      mapArray.add(map);
     }
 
     return mapArray;
