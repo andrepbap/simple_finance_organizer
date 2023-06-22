@@ -32,6 +32,7 @@ class TransactionListView extends StatelessWidget {
 
   ListTile _tile(TransactionModel transaction, BuildContext context) {
     return ListTile(
+      onLongPress: () => vm.deleteTransaction(transaction.id!),
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) =>

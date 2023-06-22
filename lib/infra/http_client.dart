@@ -10,4 +10,6 @@ abstract class HttpClient {
       {required Map<String, dynamic> object,
       required String to,
       required String where});
+
+  void delete({required String from, required String where});
 }

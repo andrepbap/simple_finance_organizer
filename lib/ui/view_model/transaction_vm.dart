@@ -42,6 +42,11 @@ class TransactionVM {
     getTransactions();
   }
 
+  void deleteTransaction(String id) {
+    _repository.delete(id);
+    getTransactions();
+  }
+
   void dispose() {
     _vn.dispose();
   }

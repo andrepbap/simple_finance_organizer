@@ -24,4 +24,8 @@ class TransactionRepository {
   void update(TransactionModel transaction) async {
     dao.update(transaction: transaction);
   }
+
+  void delete(String id) {
+    dao.delete(id: id);
+  }
 }

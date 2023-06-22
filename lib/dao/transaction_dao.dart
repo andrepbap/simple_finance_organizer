@@ -6,4 +6,5 @@ abstract class TransactionDAO {
   Future<TransactionModel> get();
   void create({required TransactionModel transaction});
   void update({required TransactionModel transaction});
+  void delete({required String id});
 }

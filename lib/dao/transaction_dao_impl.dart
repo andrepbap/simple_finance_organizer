@@ -35,4 +35,9 @@ class TransactionDAOImpl implements TransactionDAO {
   void update({required TransactionModel transaction}) {
     client.put(object: transaction.toMap(), to: entity, where: transaction.id!);
   }
+
+  @override
+  void delete({required String id}) {
+    client.delete(from: entity, where: id);
+  }
 }

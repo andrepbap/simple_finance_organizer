@@ -61,4 +61,14 @@ class HttpClientImpl implements HttpClient {
         .doc(where)
         .set(object);
   }
+
+  @override
+  void delete({required String from, required String where}) async {
+    await db
+        .collection("user")
+        .doc(userId)
+        .collection(from)
+        .doc(where)
+        .delete();
+  }
 }
