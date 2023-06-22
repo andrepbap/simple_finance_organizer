@@ -33,6 +33,15 @@ class TransactionVM {
     getTransactions();
   }
 
+  void updateTransaction(
+      String id, String description, double value, DateTime date) {
+    var transaction =
+        TransactionModel(description, value, Timestamp.fromDate(date));
+    transaction.id = id;
+    _repository.update(transaction);
+    getTransactions();
+  }
+
   void dispose() {
     _vn.dispose();
   }

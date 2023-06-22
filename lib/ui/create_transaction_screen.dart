@@ -69,7 +69,12 @@ class CreateTransactionScreen extends StatelessWidget {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            vm.createTransaction(description, value, date);
+                            if (editingTransaction != null) {
+                              vm.updateTransaction(editingTransaction!.id!,
+                                  description, value, date);
+                            } else {
+                              vm.createTransaction(description, value, date);
+                            }
                             Navigator.pop(context);
                           }
                         },

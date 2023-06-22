@@ -30,4 +30,9 @@ class TransactionDAOImpl implements TransactionDAO {
     var map = await client.get(from: entity);
     return TransactionModel.fromMap(map);
   }
+
+  @override
+  void update({required TransactionModel transaction}) {
+    client.put(object: transaction.toMap(), to: entity, where: transaction.id!);
+  }
 }

@@ -45,10 +45,20 @@ class HttpClientImpl implements HttpClient {
   }
 
   @override
-  void post(
+  void post({required Map<String, dynamic> object, required String to}) async {
+    await db.collection("user").doc(userId).collection(to).add(object);
+  }
+
+  @override
+  void put(
       {required Map<String, dynamic> object,
       required String to,
-      String? where}) async {
-    await db.collection("user").doc(userId).collection(to).add(object);
+      required String where}) async {
+    await db
+        .collection("user")
+        .doc(userId)
+        .collection(to)
+        .doc(where)
+        .set(object);
   }
 }

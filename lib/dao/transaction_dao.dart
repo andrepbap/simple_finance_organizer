@@ -5,4 +5,5 @@ abstract class TransactionDAO {
   Future<TransactionListModel> getAll();
   Future<TransactionModel> get();
   void create({required TransactionModel transaction});
+  void update({required TransactionModel transaction});
 }

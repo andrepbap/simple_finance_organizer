@@ -4,8 +4,10 @@ abstract class HttpClient {
   Future<List<Map<String, dynamic>>> getAll(
       {required String from, String? orderBy});
 
-  void post(
+  void post({required Map<String, dynamic> object, required String to});
+
+  void put(
       {required Map<String, dynamic> object,
       required String to,
-      String? where});
+      required String where});
 }

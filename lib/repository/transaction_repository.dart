@@ -20,4 +20,8 @@ class TransactionRepository {
   void post(TransactionModel transaction) async {
     dao.create(transaction: transaction);
   }
+
+  void update(TransactionModel transaction) async {
+    dao.update(transaction: transaction);
+  }
 }
