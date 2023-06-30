@@ -45,8 +45,19 @@ class HttpClientImpl implements HttpClient {
   }
 
   @override
-  void post({required Map<String, dynamic> object, required String to}) async {
-    await db.collection("user").doc(userId).collection(to).add(object);
+  void post(
+      {required Map<String, dynamic> object,
+      required String toEntity,
+      String? withKey}) async {
+    var targetCollection =
+        db.collection("user").doc(userId).collection(toEntity);
+
+    if (withKey != null) {
+      await targetCollection.doc(withKey).set(object);
+      return;
+    }
+
+    await targetCollection.add(object);
   }
 
   @override

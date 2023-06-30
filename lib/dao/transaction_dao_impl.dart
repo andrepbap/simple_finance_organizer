@@ -1,6 +1,6 @@
 import 'package:simple_finance_organizer/dao/transaction_dao.dart';
 import 'package:simple_finance_organizer/infra/http_client.dart';
-import 'package:simple_finance_organizer/infra/http_client_impl.dart';
+import 'package:simple_finance_organizer/infra/firestore_client.dart';
 import 'package:simple_finance_organizer/model/transaction_list_model.dart';
 import 'package:simple_finance_organizer/model/transaction_model.dart';
 
@@ -16,7 +16,7 @@ class TransactionDAOImpl implements TransactionDAO {
 
   @override
   void create({required TransactionModel transaction}) {
-    client.post(object: transaction.toMap(), to: entity);
+    client.post(object: transaction.toMap(), toEntity: entity);
   }
 
   @override

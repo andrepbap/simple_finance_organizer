@@ -16,11 +16,13 @@ class CreateTransactionScreen extends StatelessWidget {
     String description = "";
     double value = 0;
     DateTime date = DateTime.now();
+    String bankAccount = "";
 
     if (editingTransaction != null) {
       description = editingTransaction!.description;
       value = editingTransaction!.value;
       date = editingTransaction!.date.toDate();
+      bankAccount = editingTransaction!.bankAccountName;
     }
 
     return Scaffold(
@@ -60,6 +62,18 @@ class CreateTransactionScreen extends StatelessWidget {
                     },
                   ),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                  TextFormField(
+                    initialValue: bankAccount,
+                    onSaved: (newValue) => bankAccount = newValue!,
+                    decoration: const InputDecoration(hintText: "Conta"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Conta em que a transação pertence';
+                      }
+                      return null;
+                    },
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
                   DatePickerButton(
                       initialValue: date,
                       onSelectDate: (selectedDate) => date = selectedDate),
@@ -71,9 +85,10 @@ class CreateTransactionScreen extends StatelessWidget {
                             _formKey.currentState!.save();
                             if (editingTransaction != null) {
                               vm.updateTransaction(editingTransaction!.id!,
-                                  description, value, date);
+                                  description, value, date, bankAccount);
                             } else {
-                              vm.createTransaction(description, value, date);
+                              vm.createTransaction(
+                                  description, value, date, bankAccount);
                             }
                             Navigator.pop(context);
                           }

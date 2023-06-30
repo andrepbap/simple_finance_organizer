@@ -5,12 +5,16 @@ class TransactionModel {
   final String description;
   final double value;
   final Timestamp date;
+  final String bankAccountName;
 
-  TransactionModel(this.description, this.value, this.date);
+  TransactionModel(
+      this.description, this.value, this.date, this.bankAccountName);
 
   static TransactionModel fromMap(Map<String, dynamic> map) {
+    var temp = map["bankAccountName"] ?? "";
+
     var transaction =
-        TransactionModel(map["description"], map["value"], map["date"]);
+        TransactionModel(map["description"], map["value"], map["date"], temp);
     transaction.id = map["id"];
     return transaction;
   }
@@ -20,6 +24,7 @@ class TransactionModel {
       "description": description,
       "value": value,
       "date": date,
+      "bankAccountName": bankAccountName,
     };
   }
 }
