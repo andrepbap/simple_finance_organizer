@@ -3,6 +3,7 @@ import 'package:simple_finance_organizer/model/transaction_model.dart';
 
 abstract class TransactionDAO {
   Future<TransactionListModel> getAll();
+  Future<TransactionListModel> getByBankAccount(String accountName);
   Future<TransactionModel> get();
   void create({required TransactionModel transaction});
   void update({required TransactionModel transaction});

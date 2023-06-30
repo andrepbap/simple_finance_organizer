@@ -17,6 +17,10 @@ class TransactionRepository {
     return dao.getAll();
   }
 
+  Future<TransactionListModel> getByBankAccount(String accountName) async {
+    return dao.getByBankAccount(accountName);
+  }
+
   void post(TransactionModel transaction) async {
     dao.create(transaction: transaction);
   }

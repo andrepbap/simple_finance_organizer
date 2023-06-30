@@ -40,4 +40,10 @@ class TransactionDAOImpl implements TransactionDAO {
   void delete({required String id}) {
     client.delete(from: entity, where: id);
   }
+
+  @override
+  Future<TransactionListModel> getByBankAccount(String accountName) {
+    // TODO: implement getByBankAccount
+    throw UnimplementedError();
+  }
 }
