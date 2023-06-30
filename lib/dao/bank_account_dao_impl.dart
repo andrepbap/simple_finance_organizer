@@ -16,13 +16,13 @@ class BankAccountDAOImpl implements BankAccountnDAO {
 
   @override
   void create({required BankAccountModel account}) {
-    client.post(
-        object: account.toMap(), toEntity: entity, withKey: account.name);
+    client.create(
+        object: account.toMap(), onEntity: entity, withKey: account.name);
   }
 
   @override
   Future<BankAccountListModel> getAll() async {
-    var mapArray = await client.getAll(from: entity);
+    var mapArray = await client.getAll(fromEntity: entity);
     return BankAccountListModel.fromMap(mapArray);
   }
 }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:simple_finance_organizer/usecase/sum_transaction_usecase.dart';
 
 class TransactionSumContainer extends StatefulWidget {
-  final sumTransactionUsecase = SumTransactionUsecase();
+  final _sumTransactionUsecase = SumTransactionUsecase();
+  final String? bankAccount;
 
-  TransactionSumContainer({super.key});
+  TransactionSumContainer({super.key, this.bankAccount});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +21,8 @@ class _TransactionSumContainerState extends State<TransactionSumContainer> {
   }
 
   void _sum() async {
-    var sum = await widget.sumTransactionUsecase.sum();
+    var sum =
+        await widget._sumTransactionUsecase.sum(account: widget.bankAccount);
 
     setState(() {
       sumState = sum;

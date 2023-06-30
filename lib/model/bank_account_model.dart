@@ -5,7 +5,7 @@ class BankAccountModel {
   BankAccountModel(this.name, this.description);
 
   static BankAccountModel fromMap(Map<String, dynamic> map) {
-    var account = BankAccountModel(map["name"], map["description"]);
+    var account = BankAccountModel(map["id"], map["description"]);
     return account;
   }
 

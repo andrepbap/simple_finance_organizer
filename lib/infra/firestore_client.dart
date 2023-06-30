@@ -19,20 +19,39 @@ class HttpClientImpl implements HttpClient {
 
   @override
   Future<List<Map<String, dynamic>>> getAll(
-      {required String from, String? orderBy}) async {
-    var collection = db.collection("user").doc(userId).collection(from);
+      {required String fromEntity,
+      Map<String, dynamic>? withQuery,
+      String? orderingBy}) async {
+    var collection = db.collection("user").doc(userId).collection(fromEntity);
 
-    QuerySnapshot<Map<String, dynamic>> query;
+    // if (withQuery != null) {
+    //   for (var element in withQuery.entries) {
+    //     collection.where(element.key, isEqualTo: element.value);
+    //   }
+    // }
 
-    if (orderBy != null) {
-      query = await collection.orderBy(orderBy, descending: true).get();
+    QuerySnapshot<Map<String, dynamic>> result;
+
+    if (orderingBy != null) {
+      result = withQuery != null
+          ? await collection
+              .where(withQuery.entries.first.key,
+                  isEqualTo: withQuery.entries.first.value)
+              .orderBy(orderingBy, descending: true)
+              .get()
+          : await collection.orderBy(orderingBy, descending: true).get();
     } else {
-      query = await collection.get();
+      result = withQuery != null
+          ? await collection
+              .where(withQuery.entries.first.key,
+                  isEqualTo: withQuery.entries.first.value)
+              .get()
+          : await collection.get();
     }
 
     List<Map<String, dynamic>> mapArray = [];
 
-    for (var docSnapshot in query.docs) {
+    for (var docSnapshot in result.docs) {
       var map = docSnapshot.data();
 
       final id = <String, String>{'id': docSnapshot.id};
@@ -45,12 +64,12 @@ class HttpClientImpl implements HttpClient {
   }
 
   @override
-  void post(
+  void create(
       {required Map<String, dynamic> object,
-      required String toEntity,
+      required String onEntity,
       String? withKey}) async {
     var targetCollection =
-        db.collection("user").doc(userId).collection(toEntity);
+        db.collection("user").doc(userId).collection(onEntity);
 
     if (withKey != null) {
       await targetCollection.doc(withKey).set(object);
@@ -61,14 +80,14 @@ class HttpClientImpl implements HttpClient {
   }
 
   @override
-  void put(
+  void update(
       {required Map<String, dynamic> object,
-      required String to,
+      required String inEntity,
       required String where}) async {
     await db
         .collection("user")
         .doc(userId)
-        .collection(to)
+        .collection(inEntity)
         .doc(where)
         .set(object);
   }

@@ -2,16 +2,18 @@ import 'package:simple_finance_organizer/model/transaction_list_model.dart';
 import 'package:simple_finance_organizer/repository/transaction_repository.dart';
 
 class SumTransactionUsecase {
-  final TransactionRepository transactionRepository;
+  final TransactionRepository _transactionRepository;
 
   factory SumTransactionUsecase() {
     return SumTransactionUsecase._internal(TransactionRepository());
   }
 
-  SumTransactionUsecase._internal(this.transactionRepository);
+  SumTransactionUsecase._internal(this._transactionRepository);
 
-  Future<double> sum() async {
-    TransactionListModel transactionList = await transactionRepository.getAll();
+  Future<double> sum({String? account}) async {
+    TransactionListModel transactionList = account != null
+        ? await _transactionRepository.getByBankAccount(account)
+        : await _transactionRepository.getAll();
 
     return transactionList.transactions
         .map((transaction) => transaction.value)

@@ -2,16 +2,18 @@ abstract class HttpClient {
   Future<Map<String, dynamic>> get({required String from, String where});
 
   Future<List<Map<String, dynamic>>> getAll(
-      {required String from, String? orderBy});
+      {required String fromEntity,
+      Map<String, dynamic>? withQuery,
+      String? orderingBy});
 
-  void post(
+  void create(
       {required Map<String, dynamic> object,
-      required String toEntity,
+      required String onEntity,
       String? withKey});
 
-  void put(
+  void update(
       {required Map<String, dynamic> object,
-      required String to,
+      required String inEntity,
       required String where});
 
   void delete({required String from, required String where});

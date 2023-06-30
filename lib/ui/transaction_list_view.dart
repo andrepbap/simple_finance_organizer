@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_finance_organizer/model/transaction_list_model.dart';
 import 'package:simple_finance_organizer/model/transaction_model.dart';

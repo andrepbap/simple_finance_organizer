@@ -13,8 +13,8 @@ class TransactionModel {
   static TransactionModel fromMap(Map<String, dynamic> map) {
     var temp = map["bankAccountName"] ?? "";
 
-    var transaction =
-        TransactionModel(map["description"], map["value"], map["date"], temp);
+    var transaction = TransactionModel(map["description"],
+        double.parse(map["value"].toString()), map["date"], temp);
     transaction.id = map["id"];
     return transaction;
   }

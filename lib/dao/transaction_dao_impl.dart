@@ -16,12 +16,12 @@ class TransactionDAOImpl implements TransactionDAO {
 
   @override
   void create({required TransactionModel transaction}) {
-    client.post(object: transaction.toMap(), toEntity: entity);
+    client.create(object: transaction.toMap(), onEntity: entity);
   }
 
   @override
   Future<TransactionListModel> getAll() async {
-    var mapArray = await client.getAll(from: entity, orderBy: "date");
+    var mapArray = await client.getAll(fromEntity: entity, orderingBy: "date");
     return TransactionListModel.fromMap(mapArray);
   }
 
@@ -33,7 +33,8 @@ class TransactionDAOImpl implements TransactionDAO {
 
   @override
   void update({required TransactionModel transaction}) {
-    client.put(object: transaction.toMap(), to: entity, where: transaction.id!);
+    client.update(
+        object: transaction.toMap(), inEntity: entity, where: transaction.id!);
   }
 
   @override
@@ -42,8 +43,15 @@ class TransactionDAOImpl implements TransactionDAO {
   }
 
   @override
-  Future<TransactionListModel> getByBankAccount(String accountName) {
-    // TODO: implement getByBankAccount
-    throw UnimplementedError();
+  Future<TransactionListModel> getByBankAccount(String accountName) async {
+    final query = <String, dynamic>{
+      "bankAccountName": accountName,
+    };
+    final mapFromQuery = Map<String, dynamic>.from(query);
+
+    var result = await client.getAll(
+        fromEntity: entity, withQuery: mapFromQuery, orderingBy: "date");
+
+    return TransactionListModel.fromMap(result);
   }
 }

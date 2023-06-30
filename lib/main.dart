@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:simple_finance_organizer/ui/bank_account_list_view.dart';
 import 'package:simple_finance_organizer/ui/create_transaction_screen.dart';
 import 'package:simple_finance_organizer/ui/transaction_list_view.dart';
+import 'package:simple_finance_organizer/ui/view_model/bank_account_vm.dart';
 import 'package:simple_finance_organizer/ui/view_model/transaction_vm.dart';
 import 'firebase_options.dart';
 
@@ -41,8 +43,10 @@ class HomePageState extends State<HomePage> {
   var isFirebaseReady = false;
 
   int _selectedIndex = 0;
-  TransactionVM? vm;
-  late TransactionListView listView;
+  TransactionVM? transactionVM;
+  BankAccountVM? bankAccountVM;
+  late TransactionListView transactionListView;
+  late BankAccountListView bankAccountListView;
 
   HomePageState() {
     Future(() => _startFirebase());
@@ -53,8 +57,12 @@ class HomePageState extends State<HomePage> {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    vm = TransactionVM();
-    listView = TransactionListView(vm: vm!);
+    transactionVM = TransactionVM();
+    transactionListView = TransactionListView(vm: transactionVM!);
+
+    bankAccountVM = BankAccountVM();
+    bankAccountListView = BankAccountListView(
+        vm: bankAccountVM!, transactionListView: transactionListView);
 
     setState(() {
       isFirebaseReady = true;
@@ -63,11 +71,8 @@ class HomePageState extends State<HomePage> {
 
   List<Widget> _getWidgetOptions() {
     return <Widget>[
-      listView,
-      const Text(
-        'Index 1: Business',
-        style: optionStyle,
-      ),
+      transactionListView,
+      bankAccountListView,
       const Text(
         'Index 2: School',
         style: optionStyle,
@@ -78,17 +83,19 @@ class HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      // TODO tentar de outra forma
+      bankAccountVM!.getBankAccounts();
     });
   }
 
   Widget _getScreenToNavigate() {
     switch (_selectedIndex) {
       case 0:
-        return CreateTransactionScreen(vm: vm!);
+        return CreateTransactionScreen(vm: transactionVM!);
       case 1:
-        return CreateTransactionScreen(vm: vm!);
+        return CreateTransactionScreen(vm: transactionVM!);
       default:
-        return CreateTransactionScreen(vm: vm!);
+        return CreateTransactionScreen(vm: transactionVM!);
     }
   }
 
@@ -147,8 +154,8 @@ class HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    if (vm != null) {
-      vm!.dispose();
+    if (transactionVM != null) {
+      transactionVM!.dispose();
     }
     super.dispose();
   }
